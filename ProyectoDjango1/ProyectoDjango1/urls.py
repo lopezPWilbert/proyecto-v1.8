@@ -22,6 +22,8 @@ from allauth.account.views import *
 
 
 urlpatterns = [
+	#1.8.1 circulos
+	url(r'^zonas/$', app.views.Zonas, name="zonas"),
 	#1.6 FIltros
     url(r'^filtro/([0-9]*)/$', app.views.Filtro, name='filtro'),
 	url(r'insertar/', app.views.insertar, name='insertar'),

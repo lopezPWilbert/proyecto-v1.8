@@ -1,7 +1,26 @@
-﻿{% extends "app/base.html" %}
+<!DOCTYPE html>
+<html> 
+<head> 
+      <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <link rel="stylesheet" type="text/css" href="app/content/bootstrap.min.css'" />
+  <title>Google Maps Multiple Markers</title> 
+            <style>
+				.foot{
+					height: 50px;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					color: white;
+					background: #34495e !important;
 
-{% block estilos %}
-<style>
+				}
+
+				.cabecera{
+					background: #34495e !important;
+				}
+		</style>
+             <style>
 		.foot{
 			height: 50px;
 			display: flex;
@@ -174,9 +193,11 @@
 		padding-left: 0;
 	}
 </style>
-{% endblock estilos %}
 
-{% block content %}
+</head> 
+<body>
+	
+
 <div id="map" class="container-fluid pt-5 mt-5">
  	<div class="row"></div>
 </div>
@@ -191,7 +212,6 @@
 			   <li class="item-list"><a href="/filtro/4/">Reparaciones</a></li>
 			   <li class="item-list"><a href="/filtro/5/">Eventos</a></li>
 			   <li class="item-list"><a href="/filtro/100/">Top 10</a></li>
-               <li class="item-list"><a href="/zonas/">Zonas m&aacute;s denunciadas</a></li>
                <li class="item-list"><a href="/filtro/6/">Otros</a></li>
 		   </ul>
 		   <div class="ico-seccion">
@@ -347,8 +367,8 @@ if (document.getElementById('menu-lateral') != null) {
   </script>
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnLARYSFHB2Rg34l6r-fP7b9SiKeVxJ38&callback=initMap"
         type="text/javascript"></script>
-	
-{% endblock content %}
-
-
-
+   	    <script src="{% static 'app/scripts/jquery-3.2.1.slim.min.js' %}"></script>
+    <script src="{% static 'app/scripts/popper.min.js' %}"></script>
+    <script src="{% static 'app/scripts/bootstrap.min.js' %}"></script>
+</body>     
+</html>

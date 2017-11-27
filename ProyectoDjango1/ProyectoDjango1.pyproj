@@ -65,6 +65,7 @@
     <Content Include="app\templates\app\denuncia_repaldp_menor.html" />
     <Content Include="app\templates\app\denuncia_respaldo.html" />
     <Content Include="app\templates\app\mapa.html" />
+    <Content Include="app\templates\app\zonas.html" />
     <Content Include="app\templates\app\noticia.1_res.html" />
     <Content Include="app\templates\app\noticia.html" />
     <Content Include="app\templates\app\noticia_respaldo.html" />

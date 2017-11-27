@@ -18,7 +18,80 @@ from django.db import connection,transaction
 from django.contrib.auth.models import User
 #1.7 reportes
 from django.db.models import Q
+#1.8.1 CIrculos
+import math
+import time
 
+def Distancia(x1,y1,x2,y2):
+	distancia=math.sqrt(abs(((x2**2)-(x1**2))+((y2**2)-(y1**2))))
+	return distancia
+
+def coordenadas(queryset):
+	denuncia=[]
+	for x in queryset:
+		denuncia.append([x.id,x.titulo, x.latitud,x.longitud])
+	V=[]
+	Vv=[]
+	Vmax=[]
+	V2=[]
+	mismo=False
+	for x in denuncia:
+		Vv=[]
+		for y in denuncia:
+			if Distancia(y[2],y[3],x[2],x[3])<=1.6:
+			
+			
+				if denuncia.index(y)!=denuncia.index(x):
+					Vv.append(y)
+		if len(Vv)!=0:
+			V.append(Vv)
+
+	for x in V:
+	
+		Vmax.append(len(x))
+	m=max(Vmax)
+
+	for x in V:
+		if (len(x)==m):
+			V2.append(x)
+	coord_x=0
+	coord_y=0
+	v_promedios=[]
+	#obtener prom de cada v2
+	for a in V2:
+		for b in a:
+			coord_x+=b[2]
+			coord_y+=b[3]
+		entre=len(a)
+		v_promedios+=[[(coord_x/len(a)),(coord_y/len(a))]]
+		coord_x=0
+		coord_y=0
+
+	coord_x=0
+	coord_y=0
+	for a in v_promedios:
+		coord_x+=a[0]
+		coord_y+=a[1]
+	FinalX=(coord_x/len(v_promedios))
+	FinalY=(coord_y/len(v_promedios))
+	return FinalX,FinalY, m
+
+def crear_circulo():
+	circulos=Circulos_m.objects.filter(fecha=(time.strftime("%Y-%m-%d")))
+	if len(circulos)==0:
+		a=Denuncia_m.objects.filter(Q(estado=True)|Q(estado=None))
+		_x,_y,m=coordenadas(a)
+		Circulos_m.objects.create(x=_x, y=_y, cantidad=m)
+def Zonas(request):
+	
+	if request.POST:
+		fechaDesde= request.POST['fechaDesde']
+		fechaHasta= request.POST['fechaHasta']
+		circulos=Circulos_m.objects.filter(fecha__range=[fechaDesde,fechaHasta])
+	else:
+		circulos=Circulos_m.objects.filter(fecha=(time.strftime("%Y-%m-%d")))
+	return render(request, 'app/zonas.html', {'circulos':circulos})
+#fin 1.8.1
 
 @login_required(login_url=reverse_lazy('account_login'), redirect_field_name=None)
 def Denuncia(request):
@@ -51,22 +124,23 @@ def MasVotadas():
 #1.6 Filtros
 
 def Filtro(request, cat):
-    if cat=="100":
-        object_list=MasVotadas()
-    else:
-        object_list=Denuncia_m.objects.filter(categoria=cat)
-    return render(request, 'app/mapa.html', {'object_list':object_list})
+	if cat=="100":
+		object_list=MasVotadas()
+	else:
+		object_list=Denuncia_m.objects.filter(categoria=cat)
+	return render(request, 'app/mapa.html', {'object_list':object_list})
 
 #Fin ver 1.6
 
 
 class Mapa(ListView):
-    template_name='app/mapa.html'
-    model=Denuncia_m
-    #1.7 reportes
-    def get_queryset(self):
-        queryset = super(Mapa, self).get_queryset()
-        return queryset.filter(Q(estado=True)|Q(estado=None))
+	template_name='app/mapa.html'
+	model=Denuncia_m
+	#1.7 reportes
+	def get_queryset(self):
+		crear_circulo()
+		queryset = super(Mapa, self).get_queryset()
+		return queryset.filter(Q(estado=True)|Q(estado=None))
 
 class contador(ListView):
     template_name='app/contador.html'

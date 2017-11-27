@@ -14,6 +14,7 @@ programacion web
 1.6.3 Nivel de reputacion lista  
 1.7  Agregado reportes y filtro nuevo
 1.8 Combinado (Estilos corregidos).  
+1.8.1 Agregado filtro con circulos.
 *	Agregar zonas más denunciadas.
 *	Falta validar formulario triple  
 *	Agregar decorador de login aceptado  

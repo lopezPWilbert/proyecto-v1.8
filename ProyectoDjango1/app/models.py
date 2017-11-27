@@ -94,3 +94,11 @@ class Reportados_m(models.Model):
     #1.7 Reportes
     fecha=models.DateTimeField(auto_now=True)
 #Fin 1.6.1
+
+#1.8.1 Circulos
+class Circulos_m(models.Model):
+	x=models.FloatField(null=True, blank=True)
+	y=models.FloatField(null=True, blank=True)
+	cantidad=models.IntegerField(null=True, blank=True)
+	fecha=models.DateField(auto_now=True)
+#Fin 1.8.1
